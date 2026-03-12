@@ -51,7 +51,7 @@ export default function Malwarescan(){
 
     return (
 
-          <div className="absolute inset-0   -z-15 h-full w-full bg-black-800 bg-[linear-gradient(to_right,#272727_1px,transparent_1px),linear-gradient(to_bottom,#272727_1px,transparent_1px)] bg-size-[100px_50px]">
+          <div className="absolute inset-0 -z-15 h-full w-full bg-black-800 bg-[linear-gradient(to_right,#272727_1px,transparent_1px),linear-gradient(to_bottom,#272727_1px,transparent_1px)] bg-size-[100px_50px]">
             
             <div className="max-w-7xl  mx-auto pt-25">
               
