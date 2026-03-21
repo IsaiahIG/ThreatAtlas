@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Threat Atlas
 
-## Getting Started
+Threat Atlas is a malware and reputation lookup dashboard built with Next.js and the VirusTotal API. It lets users scan and review URLs, domains, IP addresses, file hashes, and uploaded files through a clean web interface.
 
-First, run the development server:
+## Features
+
+- URL scanning
+- Domain lookup
+- IP address lookup
+- File hash lookup
+- File upload scanning
+- Vendor result modal for detailed engine results
+- Simple responsive UI
+
+## Tech Stack
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- React Icons
+- VirusTotal API
+
+## Project Structure
 
 ```bash
+app/
+  api/
+    vt/
+      domain/
+      file/
+      hash/
+      ip/
+      url/
+components/
+  Domain.tsx
+  File.tsx
+  Hash.tsx
+  IP.tsx
+  URL.tsx
+
+  How It Works
+
+The frontend sends requests to internal Next.js API routes. Those routes then communicate with the VirusTotal API and return formatted data back to the client.
+
+Each scan type has:
+
+a React component for the UI
+
+a route.ts file for the server-side API request
+
+Supported Scan Types
+URL
+
+Submits a URL for analysis and displays detection stats and vendor results.
+
+Domain -Looks up a domain report and displays detection stats and vendor results.
+
+IP -Looks up an IP address report and displays detection stats and vendor results.
+
+Hash -Looks up an existing file hash report and displays detection stats and vendor results.
+
+File -Uploads a file to VirusTotal for scanning and displays detection stats and vendor results.
+Note: the ZIP password field is only used for password-protected ZIP files.
+
+
+Setup
+
+Clone the project and install dependencies:
+
+npm install
+
+Create a .env.local file:
+
+VIRUSTOTAL_API_KEY=your_api_key_here
+
+Start the development server:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Environment Variable
+VIRUSTOTAL_API_KEY
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This key is required for all VirusTotal API requests.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Disclaimer
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Threat Atlas is an independent project that uses the VirusTotal API. It is not affiliated with, endorsed by, or an official product of VirusTotal. Results are provided through VirusTotal services and remain subject to their terms and usage limits.
 
-## Learn More
+Purpose
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project was built for learning, practice, and demonstration purposes. It is intended to show how a modern web application can integrate with external malware intelligence APIs and present the results in a user-friendly interface.

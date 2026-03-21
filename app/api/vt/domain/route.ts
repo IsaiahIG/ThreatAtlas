@@ -30,10 +30,15 @@ function rankEngine(e: { category: string; result: string | null }) {
   return 4;
 }
 
+function toIso(epoch?: number | null) {
+  if (typeof epoch !== "number") return null;
+  return new Date(epoch * 1000).toISOString();
+}
+
 export async function GET(req: NextRequest) {
-  const hash = req.nextUrl.searchParams.get("hash");
-  if (!hash) {
-    return NextResponse.json({ error: "Missing hash" }, { status: 400 });
+  const domain = req.nextUrl.searchParams.get("domain");
+  if (!domain) {
+    return NextResponse.json({ error: "Missing domain" }, { status: 400 });
   }
 
   const apiKey = process.env.VIRUSTOTAL_API_KEY;
@@ -44,7 +49,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const vtUrl = `https://www.virustotal.com/api/v3/files/${encodeURIComponent(hash)}`;
+  const vtUrl = `https://www.virustotal.com/api/v3/domains/${encodeURIComponent(domain)}`;
 
   const vtRes = await fetch(vtUrl, {
     headers: { accept: "application/json", "x-apikey": apiKey },
@@ -92,14 +97,17 @@ export async function GET(req: NextRequest) {
     return a.engine.localeCompare(b.engine);
   });
 
+  const categories = Object.values(attrs?.categories ?? {}).filter(
+    (v: any) => typeof v === "string" && v.trim()
+  );
+
   return NextResponse.json({
-    hash,
-    meaningful_name: attrs?.meaningful_name ?? null,
-    type_description: attrs?.type_description ?? null,
-    size: typeof attrs?.size === "number" ? attrs.size : null,
-    md5: attrs?.md5 ?? null,
-    sha1: attrs?.sha1 ?? null,
-    sha256: attrs?.sha256 ?? null,
+    domain,
+    reputation: typeof attrs?.reputation === "number" ? attrs.reputation : null,
+    registrar: attrs?.registrar ?? null,
+    categories,
+    creationDate: toIso(attrs?.creation_date),
+    lastModificationDate: toIso(attrs?.last_modification_date),
     stats,
     engines,
   });
